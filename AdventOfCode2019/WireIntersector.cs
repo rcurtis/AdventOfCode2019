@@ -49,5 +49,26 @@ namespace AdventOfCode2019
                 .OrderBy(it => Math.Abs(it.X) + Math.Abs(it.Y))
                 .First();
         }
+
+        public int MinimumDistanceFromOrigin(Wire wireA, Wire wireB)
+        {
+            var intersect = MinimumIntersection(wireA, wireB);
+            return Math.Abs(intersect.X) + Math.Abs(intersect.Y);
+        }
+
+        public int IntersectionWithFewestSteps(Wire wireA, Wire wireB)
+        {
+            var intersections = FindIntersections(wireA, wireB);
+            var minSteps = int.MaxValue;
+            foreach (var intersection in intersections)
+            {
+                var stepsA = wireA.Points.IndexOf(new Point(intersection.X, intersection.Y)) + 1;
+                var stepsB = wireB.Points.IndexOf(new Point(intersection.X, intersection.Y)) + 1;
+                if (stepsA + stepsB < minSteps)
+                    minSteps = stepsA + stepsB;
+            }
+
+            return minSteps;
+        }
     }
 }

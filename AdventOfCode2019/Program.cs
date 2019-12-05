@@ -21,8 +21,12 @@ namespace AdventOfCode2019
             var opCodes = opCodeInput.Split(',').Select(int.Parse).ToList();
             ProcessOpCodes(new List<int>(opCodes));
             ProcessesOpCodeThatProducesKnownValue(new List<int>(opCodes));
-        }
 
+            var wireInput = File.ReadAllLines("WireInput.txt");
+            FindMinimumWireIntersection(wireInput[0], wireInput[1]);
+            FindIntersectionWithFewestSteps(wireInput[0], wireInput[1]);
+        }
+        
         private static void ProcessesOpCodeThatProducesKnownValue(List<int> opCodes)
         {
             var reader = new OpCodeReader();
@@ -59,6 +63,24 @@ namespace AdventOfCode2019
         {
             var total = input.Sum(mass => calculator.CalculateIncludingFuel(int.Parse(mass)));
             Console.WriteLine($"Total when including mass of fuel: {total}");
+        }
+
+        private static void FindMinimumWireIntersection(string wire1, string wire2)
+        {
+            var intersector = new WireIntersector();
+            var wireA = new WireIntersector.Wire(wire1);
+            var wireB = new WireIntersector.Wire(wire2);
+            var min = intersector.MinimumDistanceFromOrigin(wireA, wireB);
+            Console.WriteLine($"Minimum intersection distance: {min}");
+        }
+
+        private static void FindIntersectionWithFewestSteps(string wire1, string wire2)
+        {
+            var intersector = new WireIntersector();
+            var wireA = new WireIntersector.Wire(wire1);
+            var wireB = new WireIntersector.Wire(wire2);
+            var min = intersector.IntersectionWithFewestSteps(wireA, wireB);
+            Console.WriteLine($"Intersection with fewest steps: {min}");
         }
     }
 }
