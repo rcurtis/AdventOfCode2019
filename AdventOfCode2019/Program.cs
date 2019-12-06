@@ -25,8 +25,10 @@ namespace AdventOfCode2019
             var wireInput = File.ReadAllLines("WireInput.txt");
             FindMinimumWireIntersection(wireInput[0], wireInput[1]);
             FindIntersectionWithFewestSteps(wireInput[0], wireInput[1]);
+
+            FindValidPasswordsInRange(273025, 767253);
         }
-        
+
         private static void ProcessesOpCodeThatProducesKnownValue(List<int> opCodes)
         {
             var reader = new OpCodeReader();
@@ -81,6 +83,19 @@ namespace AdventOfCode2019
             var wireB = new WireIntersector.Wire(wire2);
             var min = intersector.IntersectionWithFewestSteps(wireA, wireB);
             Console.WriteLine($"Intersection with fewest steps: {min}");
+        }
+
+        private static void FindValidPasswordsInRange(int lower, int upper)
+        {
+            var validator = new PasswordValidator();
+            var accepted = new List<int>();
+            foreach (var i in Enumerable.Range(lower, upper - lower + 1))
+            {
+                if (validator.IsValid(i))
+                    accepted.Add(i);
+            }
+
+            Console.WriteLine($"Valid password count: {accepted.Count}");
         }
     }
 }
